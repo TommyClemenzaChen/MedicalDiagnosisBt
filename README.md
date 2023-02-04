@@ -1,4 +1,4 @@
-# cruzhacks-2023
-Haerin
+# Project repository for team Haerin
+Team Haerin Members:
+Owen Shi
 
-Project repository for team Haerin
