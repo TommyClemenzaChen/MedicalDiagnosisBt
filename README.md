@@ -2,3 +2,4 @@
 Team Haerin Members:
 Owen Shi
 Nick Wang
+#### Tommmy Chen
