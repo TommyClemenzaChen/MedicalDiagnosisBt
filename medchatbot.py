@@ -45,11 +45,11 @@ def suggest_treatments(diagnosis):
     else:
         for treatment in treatments:
             if (treatment.lower() == diagnosis.lower()):
-                print(f"Chatbot: Based on this diagnosis, possible treatments include {treatments[treatment]}.")
+                return f"Chatbot: Based on this diagnosis, possible treatments include {treatments[treatment]}."
 
 # find the most likely diagnoses based off symptoms
 # symptoms: list of symtpoms
-def calculate_diagnosis(symtpoms): 
+def calculate_diagnosis(symptoms): 
     diagnoses = {}
     for symptom in symptoms:
         for diagnosis in symptoms_diagnosis[symptom.capitalize()]:
@@ -84,26 +84,38 @@ def calculate_diagnosis(symtpoms):
 #             print(f"Chatbot: Sorry, {user_guess} is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.")
 
 # generator attempt
-def suggest_diagnosis_and_treatments(symptoms):
+def suggest_diagnosis_and_treatments(temp):
+    #line = input("You: ").strip().split(", ")
+    line = temp.strip().split(", ")
+    if not validate_input(line):
+        return 
+    symptoms = []
+    symptoms += line
+    symptoms = [symptom.strip().lower() for symptom in symptoms]
+
     suggested_diagnosis = calculate_diagnosis(symptoms)
 
     if not suggested_diagnosis:
         yield ("Chatbot: Sorry, I couldn't find any diagnosis based on the given symptoms.\n")
-        return
-
+        return 
     if len(suggested_diagnosis) == 1:
         yield (f"Chatbot: Based on your symptoms, the most likely diagnosis is {suggested_diagnosis[0]}.\n")
-        suggest_treatments(suggested_diagnosis[0])
+        yield suggest_treatments(suggested_diagnosis[0])
     else:
         yield (f"Chatbot: Based on your symptoms, possible diagnoses include {suggested_diagnosis}.\n")
         yield ("Chatbot: Which diagnosis would you like to hear about?\n")
-        user_guess = input("You: ")
+        
+        
+        #user_guess = input("You: ")
+        
 
-        if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
-            suggest_treatments(user_guess)
-        else:
-            yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
-    return
+        #if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
+            #suggest_treatments(user_guess)
+        #else:
+            #yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
+        
+
+    return 
 
 # return true if all inputs are valid or false otherwise
 def validate_input(inputs):
@@ -116,6 +128,8 @@ def validate_input(inputs):
     return len(invalids) == 0
 
 # prompt the user to list comma separated values consisting of their symptoms
+
+"""
 symptoms = []
 while True:
     print("Symptoms List: ")
@@ -123,15 +137,12 @@ while True:
         print(symptom, end = ', ')
     print('\n')
     print("Chatbot: Please enter your symptoms separated by commas: ")
-    line = input("You: ").strip().split(", ")
-    if not validate_input(line):
-        continue
-    symptoms += line
-    symptoms = [symptom.strip().lower() for symptom in symptoms]
+    
     suggest_diagnosis_and_treatments(symptoms)
     print("Chatbot: Do you have any other symptoms to add? (yes/no)")
     user_response = input("You: ").strip().lower()
     if user_response != "yes":
         print("Goodbye!")
         break
+"""
 
