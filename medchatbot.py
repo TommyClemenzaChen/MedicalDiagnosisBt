@@ -145,5 +145,9 @@ while True:
     if user_response != "yes":
         print("Goodbye!")
         break
+<<<<<<< HEAD
+"""
+=======
 """
 
+>>>>>>> refs/remotes/origin/main
