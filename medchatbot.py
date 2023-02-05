@@ -1,3 +1,4 @@
+# map a symptom to possible associated diagnoses
 symptoms_diagnosis = {
     "Headache": ["Migraine", "Tension headache", "Influenza", "Typhoid"],
     "Fever": ["Influenza", "Typhoid", "Malaria"],
@@ -18,6 +19,7 @@ symptoms_diagnosis = {
     "Loss of interest in activities": ["Depression"],
 }
 
+# map a diagnosis to suggested treatments
 treatments = {
     "Influenza": ["Rest", "Over-the-counter pain relievers", "Stay hydrated"],
     "Typhoid": ["Antibiotics", "Pain relievers", "Fluids and rest"],
@@ -35,19 +37,31 @@ treatments = {
     "Chronic Fatigue Syndrome": ["Stress management", "Physical therapy", "Energy conservation techniques"],
 }
 
+# print out the suggested treatments for a diagnosis
 def suggest_treatments(diagnosis):
     if diagnosis in treatments:
-        print(f"Chatbot: Based on your diagnosis, possible treatments include {treatments[diagnosis]}.")
+        print(f"Chatbot: Based on this diagnosis, possible treatments include {treatments[diagnosis]}.")
     else:
         print("Chatbot: Sorry, I don't have information on treatments for the given diagnosis.")
 
-def suggest_diagnosis_and_treatments(symptoms):
-    suggested_diagnosis = []
+# find the most likely diagnoses based off symptoms
+# symptoms: list of symtpoms
+def calculate_diagnosis(symtpoms): 
+    diagnoses = {}
     for symptom in symptoms:
-        if symptom in symptoms_diagnosis:
-            suggested_diagnosis += symptoms_diagnosis[symptom]
+        for diagnosis in symptoms_diagnosis[symptom.capitalize()]:
+            if diagnosis in diagnoses:
+                diagnoses[diagnosis] += 1
+            else:
+                diagnoses[diagnosis] = 1
+    max_frequency = max(diagnoses.values())
+    return [diagnosis for diagnosis in diagnoses if diagnoses[diagnosis] == max_frequency]
 
-    suggested_diagnosis = list(set(suggested_diagnosis))
+# symptoms: list of strings
+# suggest the highest counted diagnosis or diagnoses based off of symptoms
+# provide the user with possible treatments for the diagnosis that they believe may be the most accurate
+def suggest_diagnosis_and_treatments(symptoms):
+    suggested_diagnosis = calculate_diagnosis(symptoms)
 
     if not suggested_diagnosis:
         print("Chatbot: Sorry, I couldn't find any diagnosis based on the given symptoms.")
@@ -58,19 +72,20 @@ def suggest_diagnosis_and_treatments(symptoms):
         suggest_treatments(suggested_diagnosis[0])
     else:
         print(f"Chatbot: Based on your symptoms, possible diagnoses include {suggested_diagnosis}.")
-        print("Chatbot: Can you guess which diagnosis may be correct?")
-        user_guess = input("You: ")
+        print("Chatbot: Which diagnosis would you like to hear about?")
+        user_guess = input("You: ").lower().capitalize()
 
         if user_guess in suggested_diagnosis:
-            print(f"Chatbot: Great! You guessed correctly. The suggested diagnosis is {user_guess}.")
             suggest_treatments(user_guess)
         else:
             print(f"Chatbot: Sorry, {user_guess} is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.")
 
+# prompt the user to list comma separated values consisting of their symptoms
+symptoms = []
 while True:
     print("Chatbot: Please enter your symptoms separated by commas: ")
-    symptoms = input("You: ").strip().split(",")
-    symptoms = [symptom.strip() for symptom in symptoms]
+    symptoms += input("You: ").strip().split(",")
+    symptoms = [symptom.strip().lower() for symptom in symptoms]
     suggest_diagnosis_and_treatments(symptoms)
     print("Chatbot: Do you have any other symptoms to add? (yes/no)")
     user_response = input("You: ").strip().lower()
