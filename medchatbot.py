@@ -82,6 +82,13 @@ def suggest_diagnosis_and_treatments(symptoms):
         else:
             print(f"Chatbot: Sorry, {user_guess} is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.")
 
+# return true if all inputs are valid or false otherwise
+def validate_input(inputs):
+    for symptom in inputs:
+        if symptom.lower() not in [symptoms_diagnosis_lowered.lower() for symptoms_diagnosis_lowered in symptoms_diagnosis]:
+            return True
+    return False
+
 # prompt the user to list comma separated values consisting of their symptoms
 symptoms = []
 while True:
@@ -90,7 +97,11 @@ while True:
         print(symptom, end = ', ')
     print('\n')
     print("Chatbot: Please enter your symptoms separated by commas: ")
-    symptoms += input("You: ").strip().split(",")
+    line = input("You: ").strip().split(",")
+    if validate_input(line):
+        print("Chatbot: I did not recognize some of your symptoms. Please retry using the symptoms list below")
+        continue
+    symptoms += line
     symptoms = [symptom.strip().lower() for symptom in symptoms]
     suggest_diagnosis_and_treatments(symptoms)
     print("Chatbot: Do you have any other symptoms to add? (yes/no)")
@@ -98,4 +109,3 @@ while True:
     if user_response != "yes":
         break
 
-    
