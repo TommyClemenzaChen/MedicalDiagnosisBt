@@ -83,6 +83,10 @@ def suggest_diagnosis_and_treatments(symptoms):
 # prompt the user to list comma separated values consisting of their symptoms
 symptoms = []
 while True:
+    print("Symptoms List: ")
+    for symptom in symptoms_diagnosis.keys():
+        print(symptom, end = ', ')
+    print('\n')
     print("Chatbot: Please enter your symptoms separated by commas: ")
     symptoms += input("You: ").strip().split(",")
     symptoms = [symptom.strip().lower() for symptom in symptoms]
