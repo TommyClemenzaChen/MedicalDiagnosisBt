@@ -8,12 +8,15 @@ This program aims to provide an accurate medical diagnosis and treatment based o
 In order to access the code on your local device
 1. `git clone https://github.com/oowenn/cruzhacks-2023.git`
 2. make sure Python3 is installed
-3. run `python3 medchatbot.py`
-This should be displayed
+3. For MacOS: install tkinter using `brew install python-tk` follow corresponding instructions that brew gives you
+3. For Windows: no additional installation necessary
+4. run `python3 main.py`
+
+This empty interface should be displayed
 ![Image](https://cdn.discordapp.com/attachments/963964427437215774/1071730251849285642/image.png)
 
-4. enter symptoms to see list of medical diagnositcs
-5. enter illnesses to see treatments
+5. enter symptoms on the GUI to see list of medical diagnositcs
+6. enter illnesses on local terminal to see treatments
 
 
 # Connect With Us!
