@@ -138,7 +138,7 @@ while True:
         print(symptom, end = ', ')
     print('\n')
     print("Chatbot: Please enter your symptoms separated by commas: ")
-    
+     
     suggest_diagnosis_and_treatments(symptoms)
     print("Chatbot: Do you have any other symptoms to add? (yes/no)")
     user_response = input("You: ").strip().lower()
