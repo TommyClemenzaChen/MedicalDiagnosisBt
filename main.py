@@ -1,8 +1,6 @@
 import medchatbot
 from tkinter import *
 
-import sys
-from io import StringIO
 
 
  
@@ -30,12 +28,29 @@ txt.pack()
  
 # function to display user text when
 # button is clicked
-def clicked():
-    
 
+#needInput = "False"
+
+def clicked():
+    #lbl2 = Label(root, text = "", font = "Inter 16", fg = 'black', bg = 'white')
+    #lbl2.pack()
+
+    
     res = txt.get()
-    temp = 0
+    #if(needInput == "False"):
+        #medchatbot.suggest_treatments(res)
+        #return
+    
+    
+   # temp = ""
+   
     for x in medchatbot.suggest_diagnosis_and_treatments(res):
+        
+        #if(x == "INPUT"):
+            #needInput = "True"
+
+        #else:
+            #needInput = "False"
         
         lbl2 = Label(root, text = x, font = "Inter 16", fg = 'black', bg = 'white')
         lbl2.pack()
@@ -45,7 +60,7 @@ def clicked():
     #lbl2.pack()
  
 # button widget with red color text inside
-btn = Button(root, text = "Enter" , fg = "white", command=clicked, bg = 'black')
+btn = Button(root, text = "Enter" , fg = "white", command= clicked, bg = 'black')
 # Set Button Grid
 btn.pack()
 

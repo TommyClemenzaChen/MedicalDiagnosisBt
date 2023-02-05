@@ -88,6 +88,7 @@ def suggest_diagnosis_and_treatments(temp):
     #line = input("You: ").strip().split(", ")
     line = temp.strip().split(", ")
     if not validate_input(line):
+        
         return 
     symptoms = []
     symptoms += line
@@ -104,15 +105,15 @@ def suggest_diagnosis_and_treatments(temp):
     else:
         yield (f"Chatbot: Based on your symptoms, possible diagnoses include {suggested_diagnosis}.\n")
         yield ("Chatbot: Which diagnosis would you like to hear about?\n")
+        yield ("INPUT")
         
-        
-        #user_guess = input("You: ")
+        user_guess = input("You: ")
         
 
-        #if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
-            #suggest_treatments(user_guess)
-        #else:
-            #yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
+        if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
+            yield suggest_treatments(user_guess)
+        else:
+            yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
         
 
     return 
