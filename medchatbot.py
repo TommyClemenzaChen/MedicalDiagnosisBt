@@ -1,17 +1,17 @@
 # map a symptom to possible associated diagnoses
 symptoms_diagnosis = {
-    "Headache": ["Migraine", "Tension headache", "Influenza", "Typhoid"],
-    "Fever": ["Influenza", "Typhoid", "Malaria"],
-    "Body ache": ["Influenza", "Typhoid", "Malaria"],
-    "Fatigue": ["Influenza", "Typhoid", "Malaria", "Chronic Fatigue Syndrome"],
-    "Sore throat": ["Influenza", "Strep throat", "Tonsillitis"],
-    "Cough": ["Common Cold", "Bronchitis", "Asthma"],
-    "Runny nose": ["Common Cold", "Allergic rhinitis"],
-    "Shortness of breath": ["Asthma", "Bronchitis"],
+    "Headache": ["Migraine", "Tension headache", "Influenza", "Typhoid", "Covid"],
+    "Fever": ["Influenza", "Typhoid", "Malaria", "Covid"],
+    "Body ache": ["Influenza", "Typhoid", "Malaria", "Covid"],
+    "Fatigue": ["Influenza", "Typhoid", "Malaria", "Chronic Fatigue Syndrome", "Covid"],
+    "Sore throat": ["Influenza", "Strep throat", "Tonsillitis", "Covid"],
+    "Cough": ["Common Cold", "Bronchitis", "Asthma", "Covid"],
+    "Runny nose": ["Common Cold", "Allergic rhinitis", "Covid"],
+    "Shortness of breath": ["Asthma", "Bronchitis", "Covid"],
     "Chest pain": ["Asthma", "Bronchitis"],
     "Loss of appetite": ["Typhoid", "Malaria"],
-    "Nausea": ["Typhoid", "Malaria", "Migraine"],
-    "Diarrhea": ["Typhoid", "Malaria"],
+    "Nausea": ["Typhoid", "Malaria", "Migraine", "Covid"],
+    "Diarrhea": ["Typhoid", "Malaria", "Covid"],
     "Depressed mood": ["Depression"],
     "Irritability": ["Depression"],
     "Low energy": ["Depression", "Chronic Fatigue Syndrome"],
@@ -35,6 +35,7 @@ treatments = {
     "Anemia": ["Iron supplements", "Vitamin-rich foods", "Fluids and rest"],
     "Depression": ["Talk therapy", "Antidepressant medication", "Stress management"],
     "Chronic Fatigue Syndrome": ["Stress management", "Physical therapy", "Energy conservation techniques"],
+    "Covid": ["Antivirals"], 
 }
 
 # print out the suggested treatments for a diagnosis
@@ -84,10 +85,13 @@ def suggest_diagnosis_and_treatments(symptoms):
 
 # return true if all inputs are valid or false otherwise
 def validate_input(inputs):
+    invalids = []
     for symptom in inputs:
         if symptom.lower() not in [symptoms_diagnosis_lowered.lower() for symptoms_diagnosis_lowered in symptoms_diagnosis]:
-            return True
-    return False
+            invalids.append(symptom)
+    if len(invalids) > 0:
+        print(f"Chatbot: I did not recognize these symptoms {invalids}. Please try again using the symptoms list below.")
+    return len(invalids) == 0
 
 # prompt the user to list comma separated values consisting of their symptoms
 symptoms = []
@@ -97,9 +101,8 @@ while True:
         print(symptom, end = ', ')
     print('\n')
     print("Chatbot: Please enter your symptoms separated by commas: ")
-    line = input("You: ").strip().split(",")
-    if validate_input(line):
-        print("Chatbot: I did not recognize some of your symptoms. Please retry using the symptoms list below")
+    line = input("You: ").strip().split(", ")
+    if not validate_input(line):
         continue
     symptoms += line
     symptoms = [symptom.strip().lower() for symptom in symptoms]
@@ -107,5 +110,6 @@ while True:
     print("Chatbot: Do you have any other symptoms to add? (yes/no)")
     user_response = input("You: ").strip().lower()
     if user_response != "yes":
+        print("Goodbye!")
         break
 
