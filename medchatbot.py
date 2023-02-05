@@ -39,10 +39,12 @@ treatments = {
 
 # print out the suggested treatments for a diagnosis
 def suggest_treatments(diagnosis):
-    if diagnosis in treatments:
-        print(f"Chatbot: Based on this diagnosis, possible treatments include {treatments[diagnosis]}.")
-    else:
+    if diagnosis.lower() not in [treatment.lower() for treatment in treatments]:
         print("Chatbot: Sorry, I don't have information on treatments for the given diagnosis.")
+    else:
+        for treatment in treatments:
+            if (treatment.lower() == diagnosis.lower()):
+                print(f"Chatbot: Based on this diagnosis, possible treatments include {treatments[treatment]}.")
 
 # find the most likely diagnoses based off symptoms
 # symptoms: list of symtpoms
@@ -73,9 +75,9 @@ def suggest_diagnosis_and_treatments(symptoms):
     else:
         print(f"Chatbot: Based on your symptoms, possible diagnoses include {suggested_diagnosis}.")
         print("Chatbot: Which diagnosis would you like to hear about?")
-        user_guess = input("You: ").lower().capitalize()
+        user_guess = input("You: ")
 
-        if user_guess in suggested_diagnosis:
+        if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
             suggest_treatments(user_guess)
         else:
             print(f"Chatbot: Sorry, {user_guess} is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.")
@@ -91,4 +93,3 @@ while True:
     user_response = input("You: ").strip().lower()
     if user_response != "yes":
         break
-
