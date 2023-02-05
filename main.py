@@ -1,7 +1,7 @@
 import medchatbot
 from tkinter import *
 
-
+from PIL import ImageTk, Image
 
  
 # create root window
@@ -29,35 +29,29 @@ txt.pack()
 # function to display user text when
 # button is clicked
 
-#needInput = "False"
+
 
 def clicked():
+    
     #lbl2 = Label(root, text = "", font = "Inter 16", fg = 'black', bg = 'white')
     #lbl2.pack()
 
     
     res = txt.get()
-    #if(needInput == "False"):
-        #medchatbot.suggest_treatments(res)
-        #return
+   
     
     
    # temp = ""
    
     for x in medchatbot.suggest_diagnosis_and_treatments(res):
         
-        #if(x == "INPUT"):
-            #needInput = "True"
-
-        #else:
-            #needInput = "False"
+       
         
         lbl2 = Label(root, text = x, font = "Inter 16", fg = 'black', bg = 'white')
         lbl2.pack()
         
     
-    #lbl2 = Label(root, text = res, bg= "red", font ="none 24 bold", fg = 'purple')
-    #lbl2.pack()
+    
  
 # button widget with red color text inside
 btn = Button(root, text = "Enter" , fg = "white", command= clicked, bg = 'black')
@@ -75,5 +69,16 @@ for symptom in medchatbot.symptoms_diagnosis.keys():
 
 symList = Label(root, text = symtomList, fg="black", bg="white", font = "Satoshi 12")
 symList.pack()
+
+#Load an image in the script
+img= (Image.open("panda.jpg"))
+
+#Resize the Image using resize method
+resized_image= img.resize((300,300), Image.ANTIALIAS)
+new_image= ImageTk.PhotoImage(resized_image)
+
+label = Label(root, image = new_image)
+label.pack(side="bottom")
+
 
 root.mainloop()
