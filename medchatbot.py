@@ -45,7 +45,7 @@ def suggest_treatments(diagnosis):
     else:
         for treatment in treatments:
             if (treatment.lower() == diagnosis.lower()):
-                return f"Chatbot: Based on this diagnosis, possible treatments include {treatments[treatment]}."
+                return f"Chatbot: Based on this diagnosis, possible treatments for {treatment} include {treatments[treatment]}."
 
 # find the most likely diagnoses based off symptoms
 # symptoms: list of symtpoms
@@ -105,7 +105,7 @@ def suggest_diagnosis_and_treatments(temp):
     else:
         yield (f"Chatbot: Based on your symptoms, possible diagnoses include {suggested_diagnosis}.\n")
         yield ("Chatbot: Which diagnosis would you like to hear about?\n")
-        yield ("INPUT")
+        
         
         user_guess = input("You: ")
         
@@ -113,7 +113,7 @@ def suggest_diagnosis_and_treatments(temp):
         if user_guess.lower() in [diagnosis.lower() for diagnosis in suggested_diagnosis]:
             yield suggest_treatments(user_guess)
         else:
-            yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
+           yield (f"Chatbot: Sorry, \"{user_guess}\" is not a possible diagnosis based on your symptoms. Possible diagnoses include {suggested_diagnosis}.\n")
         
 
     return 
